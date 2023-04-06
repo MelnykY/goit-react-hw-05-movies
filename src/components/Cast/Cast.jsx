@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getMovieCredits } from '../../API/movieAPI';
 import { Container } from './Cast.styled';
 
-const BASE_URL_IMG = 'https://image.tmdb.org/t/p/w500/';
+const BASE_URL_IMG = 'https://cdn-icons-png.flaticon.com/512/25/25634.png';
 
 const Cast = () => {
   const [state, setState] = useState([]);
