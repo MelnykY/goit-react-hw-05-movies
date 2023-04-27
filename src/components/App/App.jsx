@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { GlobalStyle } from './GlobalStyle';
 import Layout from '../Layout/Layout';
-import Loader from '../Loader/Loader';
 
 const Home = lazy(() => import('../../pages/Home'));
 const Movies = lazy(() => import('../../pages/Movies'));
@@ -15,7 +14,7 @@ export const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<div>loading..</div>}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
