@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getMovieCredits } from '../../API/movieAPI';
 import { Container } from './Cast.styled';
 
-const BASE_URL_IMG = 'https://cdn-icons-png.flaticon.com/512/25/25634.png';
+const BASE_URL_IMG = 'https://image.tmdb.org/t/p/w500/';
 
 const Cast = () => {
   const [state, setState] = useState([]);
@@ -12,7 +12,7 @@ const Cast = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-
+    setload(true);
     getMovieCredits(abortController, id)
       .then(response => {
         setState(response.data.cast);
@@ -20,8 +20,10 @@ const Cast = () => {
       })
       .catch(error => {
         return error;
+      })
+      .finally(() => {
+        setload(false);
       });
-
     return () => {
       abortController.abort();
     };
@@ -29,14 +31,18 @@ const Cast = () => {
 
   return (
     <Container>
-      {!load ? (
+      {load ? (
         <p>loading...</p>
       ) : (
         <ul>
           {state.map(({ profile_path, name, character, id }) => (
             <li key={id}>
               <img
-                src={`${BASE_URL_IMG}${profile_path}`}
+                src={
+                  profile_path
+                    ? `${BASE_URL_IMG}${profile_path}`
+                    : 'https://www.publicdomainpictures.net/pictures/280000/velka/not-found-image-15383864787lu.jpg'
+                }
                 alt={name}
                 style={{ width: 100, height: 150 }}
               />
