@@ -4,15 +4,20 @@ import ListMovies from 'components/ListMovies/ListMovies';
 
 const Home = () => {
   const [stateMovies, setStateMovies] = useState([]);
+  const [load, setload] = useState(false);
 
   useEffect(() => {
     const abortController = new AbortController();
+    setload(true);
     getTrending(abortController)
       .then(response => {
         setStateMovies(response.data.results);
       })
       .catch(error => {
         return error;
+      })
+      .finally(() => {
+        setload(false);
       });
 
     return () => {
@@ -22,8 +27,15 @@ const Home = () => {
 
   return (
     <>
-      <h1>Trending today</h1>
-      {stateMovies && <ListMovies listMovies={stateMovies} />}
+      {load ? (
+        <p>loading...</p>
+      ) : (
+        <>
+          <h1>Trending today</h1>
+          {stateMovies && <ListMovies listMovies={stateMovies} />}
+        </>
+      )}
+      ;
     </>
   );
 };
