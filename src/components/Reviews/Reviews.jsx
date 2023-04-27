@@ -10,14 +10,16 @@ const Reviews = () => {
 
   useEffect(() => {
     const abortController = new AbortController();
-
+    setload(true);
     getMovieReviews(abortController, id)
       .then(response => {
         setSteta(response.data.results);
-        setload(true);
       })
       .catch(error => {
         return error;
+      })
+      .finally(() => {
+        setload(false);
       });
 
     return () => {
@@ -27,7 +29,7 @@ const Reviews = () => {
 
   return (
     <div>
-      {!load ? (
+      {load ? (
         <p>loading...</p>
       ) : state.length !== 0 ? (
         state.map(({ author, content, id }) => (
